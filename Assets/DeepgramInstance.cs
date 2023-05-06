@@ -31,13 +31,19 @@ public class DeepgramInstance : MonoBehaviour
 {
     WebSocket websocket;
 
+    public string _apiKey;
     public Ball _ball;
 
     async void Start()
     {
+        if (_apiKey.Length == 0)
+        {
+            Debug.LogError($"You must provide a value for Api Key on {this} in order for Deepgram to work.");
+        }
+
         var headers = new Dictionary<string, string>
         {
-            { "Authorization", "Token INSERT_YOUR_API_KEY" }
+            { "Authorization", $"Token {_apiKey}" }
         };
         websocket = new WebSocket("wss://api.deepgram.com/v1/listen?encoding=linear16&sample_rate=" + AudioSettings.outputSampleRate.ToString(), headers);
 
